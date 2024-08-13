@@ -1,30 +1,31 @@
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
-import tailwind from '@astrojs/tailwind';
+import { defineConfig } from "astro/config";
+import starlight from "@astrojs/starlight";
+import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: [
-		starlight({
-			title: 'Docs with Tailwind',
-			social: {
-				github: 'https://github.com/withastro/starlight',
-			},
-			sidebar: [
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
-				},
-			],
-			customCss: ['./src/tailwind.css'],
-		}),
-		tailwind({ applyBaseStyles: false }),
-	],
+  integrations: [
+    starlight({
+      title: "SuperWeb Barebones",
+      social: {
+        github: "https://github.com/withastro/starlight",
+      },
+      sidebar: [
+        {
+          label: "Getting Started",
+          items: [
+            // Each item here is one entry in the navigation menu.
+            { label: "Welcome", slug: "guides/welcome" },
+            { label: "Quick Start", slug: "guides/quick-start" },
+          ],
+        },
+        {
+          label: "Tutorials",
+          autogenerate: { directory: "tutorials" },
+        },
+      ],
+      customCss: ["./src/tailwind.css", "./src/global.css"],
+    }),
+    tailwind({ applyBaseStyles: false }),
+  ],
 });

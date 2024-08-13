@@ -1,0 +1,81 @@
+---
+title: Add a last updated date
+description: How to add a last updated date to your blog posts.
+tableOfContents: false
+---
+
+import { Aside, Steps } from "@astrojs/starlight/components";
+
+<Steps>
+
+1. Add a `lastUpdated` filed to the `src/content/config.ts` file.
+
+   ```ts title="src/content/config.ts" ins={10}
+   import { defineCollection, z } from "astro:content";
+
+   const blog = defineCollection({
+     type: "content",
+     schema: ({ image }) =>
+       z.object({
+         title: z.string(),
+         description: z.string(),
+         publicationDate: z.coerce.date(),
+         lastUpdated: z.coerce.date().optional(),
+         image: image()
+           .refine((img) => img.width >= 1200, {
+             message: "Image should be 1200px × 630px.",
+           })
+           .optional(),
+         imageAlt: z.string().optional(),
+         tags: z.array(z.string()).optional(),
+       }),
+   });
+   ```
+
+2. If the `lastUpdated` filed is present, render it on screen.
+
+   ```astro title="src/pages/blog/[...slug].astro" ins={14, 23-33}
+   <BaseLayout>
+     <SeoPost slot="head" entry={entry} />
+     <div>
+       {
+         entry.data.image && (
+           <Image
+             src={entry.data.image}
+             alt={entry.data.imageAlt || ""}
+             class="h-auto w-full"
+           />
+         )
+       }
+       <h1 class="mt-3">{entry.data.title}</h1>
+       <div>
+         <p
+           class="text-lightModeForegroundMuted dark:text-darkModeForegroundMuted text-sm"
+         >
+           Posted: <span
+             class="text-lightModeForeground dark:text-darkModeForeground font-mono"
+             >{formatDate(entry.data.publicationDate)}</span
+           >
+         </p>
+         {
+           entry.data.lastUpdated && (
+             <p class="text-lightModeForegroundMuted dark:text-darkModeForegroundMuted text-sm">
+               Last updated:
+               <span class="text-lightModeForeground dark:text-darkModeForeground font-mono">
+                 {formatDate(entry.data.lastUpdated)}
+               </span>
+             </p>
+           )
+         }
+       </div>
+       <hr class="opacity-15" />
+       <div
+         class="prose prose-neutral dark:prose-invert prose-a:text-lightModeLink prose-code:bg-[blue] prose-code:text-darkModeForeground dark:prose-a:text-darkModeLink mx-auto"
+       >
+         <Content />
+       </div>
+     </div>
+   </BaseLayout>
+   ```
+
+</Steps>

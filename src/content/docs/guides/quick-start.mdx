@@ -1,0 +1,148 @@
+---
+title: "Quick Start"
+description: "Prepare your development environment to get building with SuperWeb Themes."
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+This is a quick start guide to getting a SuperWeb theme up and running on the internet. This is intended for users already familiar with working with Astro projects. If you prefer a more in-depth guide, see [this tutorial](../tutorial/0-introduction).
+
+:::note
+Developing locally is recommended but if you prefer to try out the theme in a browser you can use an online development environment. There are many options available, including [CodeSandbox](https://codesandbox.io/), [StackBlitz](https://stackblitz.com/), [GitPod](https://www.gitpod.io/) and [Google's Project IDX](https://idx.google.com/).
+:::
+
+## Download the code
+
+### Using git
+
+<Steps>
+
+1. On the theme's GitHub page, click the green "Code" and copy the `HTTPS URL`.
+
+2. Open a terminal and run the following command:
+
+   ```bash frame="code" title="~/Downloads"
+   # replace HTTPS_URL with the copied URL in step 1
+
+   git clone HTTPS_URL my-website
+   ```
+
+3. Navigate to the theme's directory, install the dependencies, and start the development server:
+
+   ```bash frame="code" title="~/Downloads/my-website"
+   cd my-website
+   npm install
+   npm run dev
+   ```
+
+4. Open [http://localhost:4321](http://localhost:4321) in your browser to view the website.
+
+</Steps>
+
+### Using a zip file
+
+<Steps>
+
+1. Download the zip file for a theme, either from the theme's GitHub page or from Gumroad.
+
+2. Extract the zip file to a directory of your choice.
+
+3. Navigate to the theme's directory, install the dependencies, and start the development server:
+
+   ```bash frame="code" title="~/Downloads/theme-name"
+   cd theme-name
+   npm install
+   npm run dev
+   ```
+
+4. Open [http://localhost:4321](http://localhost:4321) in your browser to view the website.
+
+</Steps>
+
+:::caution
+If you're having issues viewing your project in the browser after starting the development server, go back to the terminal where you ran the `dev` command. It will tell you whether an error occurred or if the project is being served at a different URL than [http://localhost:4321](http://localhost:4321).
+:::
+
+## Configure your development environment
+
+See Astro's official [editor setup documentation](https://docs.astro.build/en/editor-setup/) on how you can improve the development experience and unlock helpful features.
+
+## Configure metadata
+
+To change the website's metadata, edit `src/siteConfig.ts`.
+
+```ts frame="code" title="/src/siteConfig.ts"
+export const SITE: SiteConfiguration = {
+  title: "Astro Barebones",
+  description: "A barebones Astro theme.",
+  author: "SuperWeb Themes",
+};
+```
+
+| Field       | Req | Description                                               |
+| :---------- | :-- | :-------------------------------------------------------- |
+| title       | Yes | Displayed in header and browser tab. Used in SEO and RSS. |
+| description | Yes | Used in SEO and RSS.                                      |
+| author      | Yes | Used in SEO and RSS.                                      |
+
+<br />
+<hr />
+<br />
+
+Customize the links shown in the navigation bar.
+
+```ts frame="code" title="/src/siteConfig.ts"
+export const NAV_LINKS: NavigationLinks = {
+  about: {
+    path: "/about",
+    label: "About",
+  },
+  contact: {
+    path: "/contact",
+    label: "Contact",
+  },
+};
+```
+
+Each link should be an object with a path and a label, and must have a corresponding page in `src/pages`. There must be at least one link or the `Navigation.astro` component will encounter an error.
+
+| Field | Req | Description                                        |
+| :---- | :-- | :------------------------------------------------- |
+| path  | Yes | The path to send the user to. Used in SEO and RSS. |
+| label | Yes | The text to be used for the link. Used in SEO.     |
+
+<br />
+<hr />
+<br />
+
+Customize your social media links. Add as many as you'd like.
+
+```ts frame="code" title="src/siteConfig.ts"
+export const SOCIAL_LINKS: SocialLinks = {
+  email: {
+    label: "Email",
+    url: "mailto:info@superwebthemes.com",
+  },
+  github: {
+    label: "GitHub",
+    url: "https://github.com/superwebthemes",
+  },
+  twitter: {
+    label: "Twitter",
+    url: "https://twitter.com/superwebthemes",
+  },
+};
+```
+
+| Field | Req | Description                                        |
+| :---- | :-- | :------------------------------------------------- |
+| path  | Yes | The path to send the user to. Used in SEO and RSS. |
+| label | Yes | The text to be used for the link. Used in SEO.     |
+
+## Start developing
+
+Open `src/pages/index.astro` in your text editor and start editing. When you save the file, the page in your browser ([http://localhost:4321](localhost:4321)) will update automatically and reflect the changes you make.
+
+## Deploying your site
+
+Read the [deployment documentation](https://docs.astro.build/en/guides/deploy/) for information on deploying your site.

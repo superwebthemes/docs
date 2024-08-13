@@ -1,0 +1,169 @@
+---
+title: Custom fonts
+description: How to install and use custom fonts with SuperWeb Barebones.
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+There are several different ways to use custom fonts with SuperWeb Barebones.
+
+## Using Google Fonts
+
+Use Google's servers to serve your fonts.
+
+<Steps>
+
+1. Select a font from [Google Fonts](https://fonts.google.com/) This example will use [Inter](https://fonts.google.com/specimen/Inter?query=inter).
+2. Click "Get Font" and then "Get embed code".
+3. Embed the `link` tags in `BaseHead.astro`.
+
+   ```html frame="code" title="src/components/BaseHead.astro"
+   <head>
+     <!-- ... -->
+
+     <link rel="preconnect" href="https://fonts.googleapis.com" />
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+     <link
+       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+       rel="stylesheet"
+     />
+
+     <slot />
+   </head>
+   ```
+
+4. Embed the CSS in `global.css`. For variable fonts, enter a weight between 100 and 900 for font-weight. For static fonts, you may need to add multiple classes with unique names for each font weight.
+
+   ```css frame="code" title="src/styles/global.css"
+   .inter-variable {
+     font-family: "Inter", sans-serif;
+     font-optical-sizing: auto;
+     font-weight: 400;
+     font-style: normal;
+   }
+   ```
+
+5. Use the class `inter-variable` to style your website.
+
+   ```html
+   <div class="inter-variable">
+     <p>This will be Inter with a normal font weight.</p>
+     <p class="font-bold">This will be Inter with a bold font weight.</p>
+   </div>
+   ```
+
+</Steps>
+
+## Using Fontsource
+
+[Fontsource](https://fontsource.org/) uses `npm` modules to install open source fonts.
+
+<Steps>
+
+1.  Select a font from Fontsource. This example will use [Inter](https://fontsource.org/fonts/inter).
+
+2.  Install the package for your font.
+
+    ```shell
+    npm install @fontsource-variable/inter
+    ```
+
+3.  Import the font package in `BaseLayout.astro`.
+
+    ```js title="src/layouts/BaseLayout.astro"
+    ---
+    // Supports weights 100-900
+    import "@fontsource-variable/inter";
+    ---
+    ```
+
+4.  Add the font name to the `body` in `global.css`.
+
+        ```css title="src/styles/global.css"
+        body {
+            font-family: "Inter Variable", monospace;
+        }
+        ```
+
+5.  Register the font in `tailwind.config.mjs`.
+
+    ```js title="tailwind.config.mjs"
+    import defaultTheme from "tailwindcss/defaultTheme";
+
+    export default {
+      content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter Variable", ...defaultTheme.fontFamily.sans],
+          },
+        },
+      },
+      plugins: [],
+    };
+    ```
+
+6.  The class `font-sans` now uses the Inter font family.
+
+    ```html
+    <div class="font-sans">
+      <p>This will be Inter with a normal font weight.</p>
+      <p class="font-bold">This will be Inter with a bold font weight.</p>
+    </div>
+    ```
+
+</Steps>
+
+## Using local fonts
+
+<Steps>
+  1. This example will use [Inter
+  4.0](https://github.com/rsms/inter/releases/tag/v4.0).
+
+2. Copy `InterVariable.woff2` to `public/fonts`.
+
+3. Add the following `font-face` rule to `global.css`.
+
+   ```css title="src/styles/global.css"
+   @font-face {
+     font-family: "Inter Variable";
+     src: url("/fonts/InterVariable.woff2") format("woff2");
+     font-weight: normal;
+     font-style: normal;
+     font-display: swap;
+   }
+   ```
+
+4. Register the font in `tailwind.config.mjs`.
+
+   ```js title="tailwind.config.mjs"
+   import defaultTheme from "tailwindcss/defaultTheme";
+
+   export default {
+     content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+     theme: {
+       extend: {
+         fontFamily: {
+           sans: ["Inter Variable", ...defaultTheme.fontFamily.sans],
+         },
+       },
+     },
+     plugins: [],
+   };
+   ```
+
+5. The class `font-sans` now uses the Inter font family.
+
+   ```html
+   <div class="font-sans">
+     <p>This will be Inter with a normal font weight.</p>
+     <p class="font-bold">This will be Inter with a bold font weight.</p>
+   </div>
+   ```
+
+</Steps>
+
+## Further reading
+
+- [Astro: Using custom fonts](https://tailwindcss.com/docs/font-family#using-custom-values)
+- [Tailwind CSS: Custom font families](https://tailwindcss.com/docs/font-family#using-custom-values)
