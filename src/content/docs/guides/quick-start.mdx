@@ -67,6 +67,16 @@ If you're having issues viewing your project in the browser after starting the d
 
 See Astro's official [editor setup documentation](https://docs.astro.build/en/editor-setup/) on how you can improve the development experience and unlock helpful features.
 
+## Configure `astro.config.mjs`
+
+```js title="astro.config.mjs"
+// Replace with your site's URL.
+
+export default defineConfig({
+  site: "https://barebones.superwebthemes.com",
+});
+```
+
 ## Configure metadata
 
 To change the website's metadata, edit `src/siteConfig.ts`.
@@ -75,15 +85,19 @@ To change the website's metadata, edit `src/siteConfig.ts`.
 export const SITE: SiteConfiguration = {
   title: "Astro Barebones",
   description: "A barebones Astro theme.",
+  url: "https://barebones.superwebthemes.com",
   author: "SuperWeb Themes",
+  locale: "en-US",
 };
 ```
 
-| Field       | Req | Description                                               |
-| :---------- | :-- | :-------------------------------------------------------- |
-| title       | Yes | Displayed in header and browser tab. Used in SEO and RSS. |
-| description | Yes | Used in SEO and RSS.                                      |
-| author      | Yes | Used in SEO and RSS.                                      |
+| Field       | Req | Description                                                 |
+| :---------- | :-- | :---------------------------------------------------------- |
+| title       | Yes | Displayed in header and browser tab. Used in SEO and RSS.   |
+| description | Yes | Used in SEO and RSS.                                        |
+| url         | Yes | Used in SEO and RSS.                                        |
+| author      | Yes | Used in SEO and RSS.                                        |
+| locale      | Yes | Used for SEO, RSS, and formatting dates. Defaults to en-US. |
 
 <br />
 <hr />
@@ -127,9 +141,17 @@ export const SOCIAL_LINKS: SocialLinks = {
     label: "GitHub",
     url: "https://github.com/superwebthemes",
   },
+  discord: {
+    label: "Discord",
+    url: "https://discord.gg/V5MCBCsAjJ",
+  }
   twitter: {
     label: "Twitter",
     url: "https://twitter.com/superwebthemes",
+  },
+  reddit: {
+    label: "Reddit",
+    url: "https://www.reddit.com/r/superwebthemes",
   },
 };
 ```

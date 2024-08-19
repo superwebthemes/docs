@@ -15,7 +15,7 @@ export default defineConfig({
           label: "Getting Started",
           items: [
             // Each item here is one entry in the navigation menu.
-            { label: "Welcome", slug: "guides/welcome" },
+            { label: "Introduction", slug: "guides/introduction" },
             { label: "Quick Start", slug: "guides/quick-start" },
           ],
         },
