@@ -4,7 +4,7 @@ description: Formatting dates with SuperWeb Barebones.
 tableOfContents: false
 ---
 
-Use the `formatDate` function in `/src/lib/utils.ts` to format dates. The default locale is set to `en-US`.
+Use the `formatDate` function in `/src/lib/utils.ts` to format dates. The default locale is set to `en-US` — you can change this in `/src/siteConfig.ts`.
 
 ```js
 import { formatDate } from "@/lib/util";

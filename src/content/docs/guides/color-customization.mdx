@@ -1,0 +1,79 @@
+---
+title: Custom colors
+description: How to customize colors with SuperWeb Barebones.
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+You can customize the colors used in `global.css`.
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+
+    --light-mode-background: 240 240 240;
+    --light-mode-foreground: 0 0 0;
+    --light-mode-foreground-muted: 50 50 50;
+    --dark-mode-background: 10 10 10;
+    --dark-mode-foreground: 255 255 255;
+    --dark-mode-foreground-muted: 205 205 205;
+  }
+
+  body {
+    background-color: light-dark(
+      rgb(var(--light-mode-background)),
+      rgb(var(--dark-mode-background))
+    );
+  }
+}
+
+```
+
+:::caution
+You should define your colors as shown above (with the RGB values declared and no units). This will allow you to specify opacity using [Tailwind's syntax.](https://tailwindcss.com/docs/customizing-colors#using-css-variables)
+:::
+
+```html
+<div class="bg-darkModeBackground/50"></div>
+```
+
+## Adding custom colors
+
+<Steps>
+
+1. Add your color to `global.css` under the `root` selector.
+
+   ```css
+   @layer base {
+         :root {
+             /* ... */
+             --super-blue: 0 0 255
+         }
+     }
+   ```
+
+2. Define your color in `tailwind.config.js`.
+   ```js
+   export default {
+       theme: {
+         extend: {
+           colors: {
+             superBlue: "rgb(var(--super-blue) / <alpha-value>)"
+           }
+         }
+       }
+     }
+   ```
+
+3. Use your color in your markup.
+
+   ```html
+    <div class="bg-superBlue"></div>
+   ```
+
+</Steps>

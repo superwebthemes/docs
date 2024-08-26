@@ -4,24 +4,27 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
+  server: {
+    port: 3000,
+  },
   integrations: [
     starlight({
       title: "SuperWeb Barebones",
       social: {
-        github: "https://github.com/withastro/starlight",
+        github: "https://github.com/superwebthemes/barebones",
       },
       sidebar: [
         {
           label: "Getting Started",
           items: [
             // Each item here is one entry in the navigation menu.
-            { label: "Introduction", slug: "guides/introduction" },
-            { label: "Quick Start", slug: "guides/quick-start" },
+            { label: "Introduction", slug: "getting-started/introduction" },
+            { label: "Quick Start", slug: "getting-started/quick-start" },
           ],
         },
         {
-          label: "Tutorials",
-          autogenerate: { directory: "tutorials" },
+          label: "Guides",
+          autogenerate: { directory: "guides" },
         },
       ],
       customCss: ["./src/tailwind.css", "./src/global.css"],
