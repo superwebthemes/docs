@@ -1,0 +1,97 @@
+---
+title: Formatting dates
+description: Formatting dates with SuperWeb Barebones.
+tableOfContents: false
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+Use the `formatDate` function in `/src/lib/utils.ts` to format dates. The default locale is set to `en-US` — you can change this in `/src/siteConfig.ts`.
+
+```js
+import { formatDate } from "@/lib/util";
+
+// Returns "8/8/2024" in "en-US" locale.
+formatDate(new Date());
+
+// Returns "2024-08-02" in "en-CA" locale.
+formatDate(entry.data.publicationDate, {}, "en-CA");
+
+// Returns "August 8, 2024" in "en-US" locale.
+formatDate(new Date(), {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+// Returns "8/2/24" in "en-US" locale.
+formatDate(entry.data.publicationDate, {
+  year: "2-digit",
+});
+```
+
+## Adding timestamps
+
+For a more detailed timestamp, you use [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). This will improve how your RSS feed is displayed in readers, and will also ensure that posts published on the same day are sorted correctly.
+
+```md title="src/content/posts/my-first-post/index.md"
+---
+publicationDate: 2024-08-27T02:29:52.695Z
+---
+```
+
+### Displaying the timestamp
+
+<Steps>
+
+1.  Update the `formatDate` function in `/src/lib/utils.ts`.
+
+    ```ts title="src/lib/utils.ts"
+    import { SITE } from "@/siteConfig.ts";
+
+    export function formatDate(
+      date: Date,
+      options: {
+        year?: "numeric" | "2-digit";
+        month?: "numeric" | "2-digit" | "long" | "short" | "narrow";
+        day?: "numeric" | "2-digit";
+        hour?: "numeric" | "2-digit";
+        minute?: "numeric" | "2-digit";
+      } = {},
+      locale: string = SITE.locale,
+    ): string {
+      const defaultOptions: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: undefined,
+        minute: undefined,
+      };
+
+      const formatOptions = { ...defaultOptions, ...options };
+
+      return new Intl.DateTimeFormat(locale, formatOptions).format(date);
+    }
+    ```
+
+2.  Install the package for your font.
+
+    ```astro title="src/pages/blog/[...slug].astro"
+    ---
+    import { formatDate } from "@/lib/utils.ts";
+    ---
+
+    <time>
+      {
+        formatDate(entry.data.publicationDate, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      }
+    </time>
+    ```
+
+</Steps>
