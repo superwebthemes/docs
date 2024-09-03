@@ -46,7 +46,7 @@ publicationDate: 2024-08-27T02:29:52.695Z
 
 1.  Update the `formatDate` function in `/src/lib/utils.ts`.
 
-    ```ts title="src/lib/utils.ts"
+    ```ts title="src/lib/utils.ts" ins={9-11, 19-21}
     import { SITE } from "@/siteConfig.ts";
 
     export function formatDate(
@@ -57,6 +57,7 @@ publicationDate: 2024-08-27T02:29:52.695Z
         day?: "numeric" | "2-digit";
         hour?: "numeric" | "2-digit";
         minute?: "numeric" | "2-digit";
+        timezone?: string;
       } = {},
       locale: string = SITE.locale,
     ): string {
@@ -66,6 +67,8 @@ publicationDate: 2024-08-27T02:29:52.695Z
         day: "numeric",
         hour: undefined,
         minute: undefined,
+        timeZone: SITE.timezone,
+        ...options,
       };
 
       const formatOptions = { ...defaultOptions, ...options };
@@ -74,7 +77,33 @@ publicationDate: 2024-08-27T02:29:52.695Z
     }
     ```
 
-2.  Install the package for your font.
+2.  Update `src/types.ts` to include the new `timezone` property.
+
+    ```ts title="src/types.ts" ins={7}
+    export type SiteConfiguration = {
+      title: string;
+      description: string;
+      url: string;
+      author: string;
+      locale: string;
+      timezone: string;
+    };
+    ```
+
+3.  Add the `timezone` property to your `siteConfig.ts` file.
+
+    ```ts title="src/siteConfig.ts" ins={7}
+    export const SITE = {
+      title: "My Site",
+      description: "My Site Description",
+      url: "https://example.com",
+      author: "My Name",
+      locale: "en-US",
+      timezone: "America/Vancouver",
+    };
+    ```
+
+4.  Display the timestamp on your page.
 
     ```astro title="src/pages/blog/[...slug].astro"
     ---
